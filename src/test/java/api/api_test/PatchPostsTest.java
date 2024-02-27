@@ -32,4 +32,25 @@ public class PatchPostsTest extends BaseApiTest {
         Assertions.assertEquals(postId, response.getId());
         Assertions.assertEquals(title, response.getTitle());
     }
+
+    @Test
+    @DisplayName("PATCH /posts/id.Отправка запроса без title")
+    public void patchPostsWithoutTitle() {
+        setSpecification(requestSpecification(), response200Specification());
+        Integer postId = 1;
+        String title = "sunt aut facere repellat provident occaecati excepturi optio reprehenderit";
+        PatchPostsRequest request = PatchPostsRequest.generateRequestWithoutTitle();
+
+        PatchPostsResponse response = given()
+                .contentType(ContentType.JSON)
+                .when()
+                .body(request)
+                .log().all()
+                .patch("posts/" + postId)
+                .then().log().all()
+                .extract().as(PatchPostsResponse.class);
+
+        Assertions.assertEquals(postId, response.getId());
+        Assertions.assertEquals(title, response.getTitle());
+    }
 }

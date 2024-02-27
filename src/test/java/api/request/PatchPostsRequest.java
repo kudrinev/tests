@@ -1,5 +1,6 @@
 package api.request;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,7 +13,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PatchPostsRequest{
 
+
     @JsonProperty("title")
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String title;
 
 
@@ -21,4 +24,10 @@ public class PatchPostsRequest{
                 .title(title)
                 .build();
     }
+
+    public static PatchPostsRequest generateRequestWithoutTitle() {
+        return new PatchPostsRequest.PatchPostsRequestBuilder()
+                .build();
+    }
+
 }

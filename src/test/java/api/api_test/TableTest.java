@@ -37,9 +37,10 @@ public class TableTest extends BaseApiTest {
                     .then()
                     .extract().body().jsonPath().getList(".", GetPostCommentsResponseItem.class);
             System.out.printf("%-80s %-100s", postResponse.get(i).getTitle(), " ");
+            System.out.println();
 
-            for (int j = 0; j < commentList.size(); j++) {
-                System.out.printf("%-80s %-100s", " ", commentList.get(j).getBody().replace("\n","") );
+            for (GetPostCommentsResponseItem getPostCommentsResponseItem : commentList) {
+                System.out.printf("%-80s %-100s", " ", getPostCommentsResponseItem.getBody().replace("\n", ""));
                 System.out.println();
             }
         }

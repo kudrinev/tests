@@ -25,6 +25,11 @@ public class BaseApiTest {
                 .expectStatusCode(200)
                 .build();
     }
+    public static ResponseSpecification response404Specification() {
+        return new ResponseSpecBuilder()
+                .expectStatusCode(404)
+                .build();
+    }
 
     public static ResponseSpecification response201Specification() {
         return new ResponseSpecBuilder()

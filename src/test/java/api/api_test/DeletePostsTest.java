@@ -22,5 +22,4 @@ public class DeletePostsTest extends BaseApiTest {
                 .then().log().all();
     }
 
-
 }
