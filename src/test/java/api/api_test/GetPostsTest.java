@@ -1,6 +1,7 @@
-package api;
+package api.api_test;
 
-import api.response.GetPostsResponseItem;
+import api.response.getPostCommentsResponse.GetPostCommentsResponseItem;
+import api.response.getPostsResponse.GetPostsResponseItem;
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -15,11 +16,11 @@ public class GetPostsTest extends BaseApiTest {
     @Test
     @DisplayName("GET /posts.Код 200.Проверка корректности ответа")
     public void getPosts() {
-        setSpecification(requestSpecification(), responseSpecification());
+        setSpecification(requestSpecification(), response200Specification());
         List<GetPostsResponseItem> postList = given()
                 .contentType(ContentType.JSON)
                 .when()
-                .get(URL + "posts")
+                .get("posts")
                 .then().log().all()
                 .extract().body().jsonPath().getList(".", GetPostsResponseItem.class);
         for (int i = 0; i < postList.size(); i++) {
@@ -27,18 +28,18 @@ public class GetPostsTest extends BaseApiTest {
         }
     }
     @Test
-    @DisplayName("GET /posts/1.Код 200.Проверка корректности ответа")
+    @DisplayName("GET /posts/1.Код 200.Проверка тела ответа")
     public void getPostById() {
         int userId = 1;
         int id = 1;
         String title = "sunt aut facere repellat provident occaecati excepturi optio reprehenderit";
         String body = "quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto";
 
-        setSpecification(requestSpecification(), responseSpecification());
+        setSpecification(requestSpecification(), response200Specification());
         GetPostsResponseItem response = given()
                 .contentType(ContentType.JSON)
                 .when()
-                .get(URL + "posts/1")
+                .get("posts/" + id)
                 .then().log().all()
                 .extract().body().as(GetPostsResponseItem.class);
 
@@ -46,5 +47,25 @@ public class GetPostsTest extends BaseApiTest {
         Assertions.assertEquals(id, response.getId());
         Assertions.assertEquals(title, response.getTitle());
         Assertions.assertEquals(body, response.getBody());
+    }
+
+    @Test
+    @DisplayName("GET /posts/1/comments.Код 200.Проверка корректности ответа")
+    public void getCommentByPostId() {
+        int postId = 1;
+
+
+        setSpecification(requestSpecification(), response200Specification());
+        List<GetPostCommentsResponseItem> commentList = given()
+                .contentType(ContentType.JSON)
+                .when()
+                .get("posts/" + postId + "/comments")
+                .then().log().all()
+                .extract().body().jsonPath().getList(".",GetPostCommentsResponseItem.class);
+        for (int i = 0; i < commentList.size(); i++) {
+            Assertions.assertEquals(commentList.get(i).getPostId(),(postId));
+            Assertions.assertEquals(commentList.get(i).getId(), i + 1);
+        }
+
     }
 }

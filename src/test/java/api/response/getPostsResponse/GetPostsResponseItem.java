@@ -1,4 +1,4 @@
-package api.response;
+package api.response.getPostsResponse;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

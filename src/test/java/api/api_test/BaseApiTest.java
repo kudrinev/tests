@@ -1,4 +1,4 @@
-package api;
+package api.api_test;
 
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
@@ -20,9 +20,15 @@ public class BaseApiTest {
     }
 
 
-    public static ResponseSpecification responseSpecification() {
+    public static ResponseSpecification response200Specification() {
         return new ResponseSpecBuilder()
                 .expectStatusCode(200)
+                .build();
+    }
+
+    public static ResponseSpecification response201Specification() {
+        return new ResponseSpecBuilder()
+                .expectStatusCode(201)
                 .build();
     }
 
